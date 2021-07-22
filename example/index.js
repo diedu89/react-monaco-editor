@@ -6,7 +6,13 @@ class CodeEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      code: "// type your code... \n",
+      code: `@Path
+class Test {
+  @AnnotationA
+  @AnnotationB
+  private Object field;
+}
+      `,
       theme: "vs-light",
     };
   }
@@ -15,9 +21,21 @@ class CodeEditor extends React.Component {
     console.log("onChange", newValue); // eslint-disable-line no-console
   };
 
-  editorDidMount = (editor) => {
+  editorDidMount = (editor, monaco) => {
     // eslint-disable-next-line no-console
     console.log("editorDidMount", editor, editor.getValue(), editor.getModel());
+    const r = new monaco.Range(1, 3, 1, 10);
+    editor.deltaDecorations(
+        [],
+        [
+            {
+                range: r,
+                options: {
+                    inlineClassName: "myInlineDecoration",
+                },
+            },
+        ]
+    );
     this.editor = editor;
   };
 
